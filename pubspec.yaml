@@ -1,0 +1,73 @@
+name: app_controle_leitura
+description: BookTracker - Controle de leitura com sync na nuvem
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_bloc: ^8.1.6
+  equatable: ^2.0.5
+
+  # Dependency Injection
+  get_it: ^8.0.2
+  injectable: ^2.4.1
+
+  # Navigation
+  go_router: ^14.0.0
+
+  # Local DB
+  sqflite: ^2.3.3
+  path: ^1.9.0
+
+  # Auth
+  google_sign_in: ^6.2.1
+  # Microsoft auth: adicionar antes da Play Store (ex: aad_oauth ^1.0.1)
+  # msal_flutter requer configuração nativa separada
+
+  # HTTP
+  http: ^1.2.1
+
+  # OCR / Camera
+  google_mlkit_text_recognition: ^0.13.0
+  camera: ^0.11.0
+  image_picker: ^1.1.2
+
+  # Utils
+  uuid: ^4.4.0
+  intl: ^0.20.0
+  cupertino_icons: ^1.0.2
+  shared_preferences: ^2.3.0
+  share_plus: ^10.0.0
+  fl_chart: ^0.68.0
+  table_calendar: ^3.1.2
+  cached_network_image: ^3.4.1
+  path_provider: ^2.1.4
+  flutter_local_notifications: ^18.0.0
+  timezone: ^0.9.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  injectable_generator: ^2.6.1
+  build_runner: ^2.4.11
+  bloc_test: ^9.1.7
+  mocktail: ^1.0.3
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21
+
+flutter:
+  uses-material-design: true

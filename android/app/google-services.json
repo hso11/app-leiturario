@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "180274269502",
+    "project_id": "app-controle-leitura",
+    "storage_bucket": "app-controle-leitura.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180274269502:android:87befa99507b157a85306f",
+        "android_client_info": {
+          "package_name": "com.helio.controleleitura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180274269502-0ljf6c33f2rnbpfh3jo0bj1l9c8tvt0n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.helio.controleleitura",
+            "certificate_hash": "87f58d9aaa6ef5c9c8f5a30f905241817f85ed3f"
+          }
+        },
+        {
+          "client_id": "180274269502-3a4o68bmpp3hqudpcmrgcavcsi34ihdm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApvYAcs8ta6Fgvsd-xW2n76OO1gvSx-Hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180274269502-3a4o68bmpp3hqudpcmrgcavcsi34ihdm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,11 @@
+part of 'auth_bloc.dart';
+
+abstract class AuthEvent {}
+
+class AuthCheckRequested extends AuthEvent {}
+
+class AuthGoogleSignInRequested extends AuthEvent {}
+
+class AuthMicrosoftSignInRequested extends AuthEvent {}
+
+class AuthSignOutRequested extends AuthEvent {}
