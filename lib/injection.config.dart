@@ -43,6 +43,8 @@ import 'package:app_controle_leitura/data/repositories/streak_repository_impl.da
     as _i772;
 import 'package:app_controle_leitura/data/services/google_books_service.dart'
     as _i818;
+import 'package:app_controle_leitura/data/services/mercado_livre_service.dart'
+    as _i497;
 import 'package:app_controle_leitura/data/services/notification_service.dart'
     as _i926;
 import 'package:app_controle_leitura/domain/repositories/achievement_repository.dart'
@@ -113,6 +115,8 @@ import 'package:app_controle_leitura/presentation/blocs/book/book_bloc.dart'
     as _i689;
 import 'package:app_controle_leitura/presentation/blocs/book_list/book_list_cubit.dart'
     as _i379;
+import 'package:app_controle_leitura/presentation/blocs/book_price/book_price_cubit.dart'
+    as _i436;
 import 'package:app_controle_leitura/presentation/blocs/goal/goal_cubit.dart'
     as _i826;
 import 'package:app_controle_leitura/presentation/blocs/note/note_bloc.dart'
@@ -143,6 +147,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i258.DatabaseHelper>(() => _i258.DatabaseHelper());
     gh.lazySingleton<_i818.GoogleBooksService>(
         () => _i818.GoogleBooksService());
+    gh.lazySingleton<_i497.MercadoLivreService>(
+        () => _i497.MercadoLivreService());
     gh.lazySingleton<_i1038.AchievementRepository>(
         () => _i412.AchievementRepositoryImpl());
     gh.lazySingleton<_i53.OneDriveStorage>(
@@ -166,6 +172,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1025.RecordReadingActivity(gh<_i767.StreakRepository>()));
     gh.lazySingleton<_i856.StreakCubit>(
         () => _i856.StreakCubit(gh<_i767.StreakRepository>()));
+    gh.factory<_i436.BookPriceCubit>(
+        () => _i436.BookPriceCubit(gh<_i497.MercadoLivreService>()));
     gh.lazySingleton<_i758.GetAnnualGoal>(
         () => _i758.GetAnnualGoal(gh<_i85.GoalRepository>()));
     gh.lazySingleton<_i711.SetAnnualGoal>(

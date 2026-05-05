@@ -80,6 +80,13 @@ class AppStrings {
   static const sortEndDate = 'Conclusão';
   static const sortRating = 'Avaliação';
 
+  // Mercado Livre price search
+  static const mlPrices = 'Preços no Mercado Livre';
+  static const mlSearchButton = 'Buscar preços no Mercado Livre';
+  static const mlNoResults = 'Nenhum resultado encontrado.';
+  static const mlError = 'Erro ao buscar preços. Tente novamente.';
+  static const mlRetry = 'Tentar novamente';
+
   static const List<String> predefinedGenres = [
     'Ficção',
     'Não-ficção',

@@ -17,6 +17,7 @@ import '../../../core/utils/image_capture.dart';
 import '../../../injection.dart';
 import '../../blocs/book_list/book_list_cubit.dart';
 import 'widgets/book_share_card.dart';
+import 'widgets/price_search_card.dart';
 
 class BookDetailScreen extends StatelessWidget {
   final String bookId;
@@ -76,6 +77,8 @@ class _BookDetailView extends StatelessWidget {
             child: Column(
               children: [
                 _BookInfoCard(book: book),
+                if (book.status == BookStatus.wantToRead)
+                  PriceSearchCard(book: book),
                 if (book.status == BookStatus.read && (book.rating != null || (book.review != null && book.review!.isNotEmpty)))
                   _RatingReviewCard(book: book),
                 const Divider(),
