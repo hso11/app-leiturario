@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import '../../entities/book.dart';
 import '../../repositories/book_repository.dart';
 
 class UpdateReadingProgressParams {
@@ -15,7 +16,16 @@ class UpdateReadingProgress {
   Future<void> call(UpdateReadingProgressParams params) async {
     final book = await _repository.getById(params.bookId);
     if (book == null) return;
-    final updated = book.copyWith(currentPage: params.currentPage);
+    final Book updated;
+    if (params.currentPage >= book.totalPages) {
+      updated = book.copyWith(
+        currentPage: book.totalPages,
+        status: BookStatus.read,
+        endDate: DateTime.now(),
+      );
+    } else {
+      updated = book.copyWith(currentPage: params.currentPage);
+    }
     await _repository.update(updated);
   }
 }

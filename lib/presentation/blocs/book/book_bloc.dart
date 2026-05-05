@@ -136,7 +136,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
         rating: event.rating,
         review: event.review,
       ));
-      await _notificationService.onUserRead();
+      try { await _notificationService.onUserRead(); } catch (_) {}
       final books = await _getAllBooks(const NoParams());
       final newAchievements = await _checkAchievements(books);
       if (newAchievements.isNotEmpty) {
@@ -156,8 +156,8 @@ class BookBloc extends Bloc<BookEvent, BookState> {
         bookId: event.bookId,
         currentPage: event.currentPage,
       ));
-      await _recordReadingActivity(DateTime.now());
-      await _notificationService.onUserRead();
+      try { await _recordReadingActivity(DateTime.now()); } catch (_) {}
+      try { await _notificationService.onUserRead(); } catch (_) {}
       final books = await _getAllBooks(const NoParams());
       final newAchievements = await _checkAchievements(books);
       if (newAchievements.isNotEmpty) {
