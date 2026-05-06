@@ -37,11 +37,18 @@ class NotificationService {
 
   Future<void> initialize() async {
     tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('America/Sao_Paulo'));
 
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
     const darwin = DarwinInitializationSettings();
     const settings = InitializationSettings(android: android, iOS: darwin);
     await _plugin.initialize(settings);
+
+    // Solicita permissão no Android 13+ (API 33+)
+    await _plugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
 
     try {
       await scheduleReadingReminders();
@@ -59,6 +66,10 @@ class NotificationService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyEnabled, enabled);
     if (enabled) {
+      await _plugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestNotificationsPermission();
       await scheduleReadingReminders();
     } else {
       await cancelAllReminders();

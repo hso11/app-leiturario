@@ -84,7 +84,8 @@ class AppStrings {
 
   // Mercado Livre price search
   static const mlPrices = 'Preços no Mercado Livre';
-  static const mlSearchButton = 'Buscar preços no Mercado Livre';
+  static const mlSearchButton = 'Buscar no Mercado Livre';
+  static const amazonSearchButton = 'Buscar na Amazon';
   static const mlNoResults = 'Nenhum resultado encontrado.';
   static const mlError = 'Erro ao buscar preços. Tente novamente.';
   static const mlRetry = 'Tentar novamente';

@@ -8,12 +8,20 @@ class PriceSearchCard extends StatelessWidget {
   final Book book;
   const PriceSearchCard({super.key, required this.book});
 
-  Future<void> _openSearch() async {
+  Future<void> _openMercadoLivre() async {
     final query = Uri.encodeComponent('${book.title.trim()} ${book.author.trim()}');
-    final uri = Uri.parse(
-      'https://lista.mercadolivre.com.br/livros-revistas-comics/$query',
+    await launchUrl(
+      Uri.parse('https://lista.mercadolivre.com.br/livros-revistas-comics/$query'),
+      mode: LaunchMode.externalApplication,
     );
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
+  Future<void> _openAmazon() async {
+    final query = Uri.encodeQueryComponent('${book.title.trim()} ${book.author.trim()}');
+    await launchUrl(
+      Uri.parse('https://www.amazon.com.br/s?k=$query'),
+      mode: LaunchMode.externalApplication,
+    );
   }
 
   @override
@@ -41,9 +49,18 @@ class PriceSearchCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: _openSearch,
+                onPressed: _openMercadoLivre,
                 icon: const Icon(Icons.open_in_new),
                 label: const Text(AppStrings.mlSearchButton),
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: _openAmazon,
+                icon: const Icon(Icons.open_in_new),
+                label: const Text(AppStrings.amazonSearchButton),
               ),
             ),
           ],

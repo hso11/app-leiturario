@@ -173,7 +173,7 @@ class BookShareCard extends StatelessWidget {
                         color: Colors.white54, size: 14),
                     const SizedBox(width: 5),
                     Text(
-                      'Controle de Leitura',
+                      'Leiturário',
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.5),
                         fontSize: 11,
