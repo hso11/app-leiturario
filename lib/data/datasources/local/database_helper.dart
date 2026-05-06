@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 @lazySingleton
 class DatabaseHelper {
   static const _dbName = 'booktracker.db';
-  static const _dbVersion = 6;
+  static const _dbVersion = 7;
 
   Database? _database;
 
@@ -40,7 +40,8 @@ class DatabaseHelper {
         rating INTEGER,
         review TEXT,
         genres TEXT,
-        cover_url TEXT
+        cover_url TEXT,
+        position INTEGER NOT NULL DEFAULT 0
       )
     ''');
 
@@ -126,6 +127,17 @@ class DatabaseHelper {
           UNIQUE(book_id, date),
           FOREIGN KEY (book_id) REFERENCES books (id) ON DELETE CASCADE
         )
+      ''');
+    }
+    if (oldVersion < 7) {
+      await db.execute(
+          'ALTER TABLE books ADD COLUMN position INTEGER NOT NULL DEFAULT 0');
+      // Back-fill: preserva ordem visual atual (rowid DESC → position ASC)
+      await db.execute('''
+        UPDATE books SET position = (
+          SELECT COUNT(*) FROM books b2
+          WHERE b2.status = 'wantToRead' AND b2.rowid >= books.rowid
+        ) WHERE status = 'wantToRead'
       ''');
     }
   }

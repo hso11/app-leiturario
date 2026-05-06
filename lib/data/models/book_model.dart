@@ -15,6 +15,7 @@ class BookModel extends Book {
     super.review,
     super.genres = const [],
     super.coverUrl,
+    super.position = 0,
   });
 
   factory BookModel.fromEntity(Book book) {
@@ -32,6 +33,7 @@ class BookModel extends Book {
       review: book.review,
       genres: book.genres,
       coverUrl: book.coverUrl,
+      position: book.position,
     );
   }
 
@@ -62,6 +64,7 @@ class BookModel extends Book {
               .toList() ??
           [],
       coverUrl: json['coverUrl'] as String?,
+      position: (json['position'] as int?) ?? 0,
     );
   }
 
@@ -80,6 +83,7 @@ class BookModel extends Book {
       'review': review,
       'genres': genres,
       'coverUrl': coverUrl,
+      'position': position,
     };
   }
 
@@ -111,6 +115,7 @@ class BookModel extends Book {
               .toList() ??
           [],
       coverUrl: map['cover_url'] as String?,
+      position: (map['position'] as int?) ?? 0,
     );
   }
 
@@ -129,6 +134,7 @@ class BookModel extends Book {
       'review': review,
       'genres': genres.isEmpty ? null : genres.join(','),
       'cover_url': coverUrl,
+      'position': position,
     };
   }
 }

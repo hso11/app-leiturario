@@ -25,10 +25,12 @@ class AppStrings {
   static const bookAdded = 'Livro adicionado!';
   static const bookDeleted = 'Livro removido';
   static const moveToReading = 'Mover para Lendo';
+  static const moveToWantToRead = 'Voltar para A Ler';
   static const markAsRead = 'Marcar como Lido';
   static const startReading = 'Começar a ler';
   static const pagesPerDay = 'págs/dia';
   static const dragToRead = 'Arraste para começar a ler';
+  static const reorderHint = 'Segure e arraste para reordenar';
 
   // Notes
   static const notes = 'Anotações';

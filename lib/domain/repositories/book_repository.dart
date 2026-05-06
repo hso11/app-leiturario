@@ -6,4 +6,5 @@ abstract interface class BookRepository {
   Future<void> add(Book book);
   Future<void> update(Book book);
   Future<void> delete(String id);
+  Future<void> reorderWantToRead(List<String> orderedIds);
 }

@@ -16,8 +16,11 @@ class BooksLoaded extends BookState {
   List<Book> get reading =>
       books.where((b) => b.status == BookStatus.reading).toList();
 
-  List<Book> get wantToRead =>
-      books.where((b) => b.status == BookStatus.wantToRead).toList();
+  List<Book> get wantToRead {
+    final list = books.where((b) => b.status == BookStatus.wantToRead).toList();
+    list.sort((a, b) => a.position.compareTo(b.position));
+    return list;
+  }
 }
 
 /// Extends BooksLoaded so BlocBuilder sees it as loaded state

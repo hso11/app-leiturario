@@ -10,7 +10,9 @@ import '../../../domain/usecases/book/delete_book.dart';
 import '../../../domain/usecases/book/get_all_books.dart';
 import '../../../domain/usecases/book/mark_as_read.dart';
 import '../../../domain/usecases/book/move_to_reading.dart';
+import '../../../domain/usecases/book/move_to_want_to_read.dart';
 import '../../../domain/usecases/book/update_book.dart';
+import '../../../domain/usecases/book/reorder_want_to_read.dart';
 import '../../../domain/usecases/book/update_reading_progress.dart';
 import '../../../domain/usecases/streak/record_reading_activity.dart';
 import '../../../domain/usecases/achievement/check_achievements.dart';
@@ -25,8 +27,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   final UpdateBook _updateBook;
   final DeleteBook _deleteBook;
   final MoveToReading _moveToReading;
+  final MoveToWantToRead _moveToWantToRead;
   final MarkAsRead _markAsRead;
   final UpdateReadingProgress _updateReadingProgress;
+  final ReorderWantToRead _reorderWantToRead;
   final RecordReadingActivity _recordReadingActivity;
   final CheckAchievements _checkAchievements;
   final NotificationService _notificationService;
@@ -38,8 +42,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
     this._updateBook,
     this._deleteBook,
     this._moveToReading,
+    this._moveToWantToRead,
     this._markAsRead,
     this._updateReadingProgress,
+    this._reorderWantToRead,
     this._recordReadingActivity,
     this._checkAchievements,
     this._notificationService,
@@ -49,8 +55,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
     on<BookUpdateRequested>(_onUpdate);
     on<BookDeleteRequested>(_onDelete);
     on<BookMoveToReadingRequested>(_onMoveToReading);
+    on<BookMoveToWantToReadRequested>(_onMoveToWantToRead);
     on<BookMarkAsReadRequested>(_onMarkAsRead);
     on<BookUpdateProgressRequested>(_onUpdateProgress);
+    on<BookReorderRequested>(_onReorder);
   }
 
   Future<void> _onLoad(
@@ -79,6 +87,9 @@ class BookBloc extends Bloc<BookEvent, BookState> {
         status = BookStatus.wantToRead;
         currentPage = 0;
       }
+      final int position = (status == BookStatus.wantToRead && state is BooksLoaded)
+          ? (state as BooksLoaded).wantToRead.length
+          : 0;
       final book = Book(
         id: _uuid.v4(),
         title: event.title,
@@ -90,11 +101,22 @@ class BookBloc extends Bloc<BookEvent, BookState> {
         endDate: event.endDate,
         genres: event.genres,
         coverUrl: event.coverUrl,
+        position: position,
       );
       await _addBook(book);
       add(BookLoadRequested());
     } catch (e) {
       emit(BookError('Erro ao adicionar livro: $e'));
+    }
+  }
+
+  Future<void> _onReorder(
+      BookReorderRequested event, Emitter<BookState> emit) async {
+    try {
+      await _reorderWantToRead(event.orderedIds);
+      add(BookLoadRequested());
+    } catch (e) {
+      emit(BookError('Erro ao reordenar livros: $e'));
     }
   }
 
@@ -122,6 +144,16 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       BookMoveToReadingRequested event, Emitter<BookState> emit) async {
     try {
       await _moveToReading(event.id);
+      add(BookLoadRequested());
+    } catch (e) {
+      emit(BookError('Erro ao mover livro: $e'));
+    }
+  }
+
+  Future<void> _onMoveToWantToRead(
+      BookMoveToWantToReadRequested event, Emitter<BookState> emit) async {
+    try {
+      await _moveToWantToRead(event.id);
       add(BookLoadRequested());
     } catch (e) {
       emit(BookError('Erro ao mover livro: $e'));

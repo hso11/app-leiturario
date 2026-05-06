@@ -25,4 +25,8 @@ class BookRepositoryImpl implements BookRepository {
 
   @override
   Future<void> delete(String id) => _datasource.delete(id);
+
+  @override
+  Future<void> reorderWantToRead(List<String> orderedIds) =>
+      _datasource.reorderWantToRead(orderedIds);
 }

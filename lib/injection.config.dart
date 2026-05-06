@@ -73,6 +73,10 @@ import 'package:app_controle_leitura/domain/usecases/book/mark_as_read.dart'
     as _i246;
 import 'package:app_controle_leitura/domain/usecases/book/move_to_reading.dart'
     as _i300;
+import 'package:app_controle_leitura/domain/usecases/book/move_to_want_to_read.dart'
+    as _i118;
+import 'package:app_controle_leitura/domain/usecases/book/reorder_want_to_read.dart'
+    as _i60;
 import 'package:app_controle_leitura/domain/usecases/book/update_book.dart'
     as _i214;
 import 'package:app_controle_leitura/domain/usecases/book/update_reading_progress.dart'
@@ -197,6 +201,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i246.MarkAsRead(gh<_i196.BookRepository>()));
     gh.lazySingleton<_i300.MoveToReading>(
         () => _i300.MoveToReading(gh<_i196.BookRepository>()));
+    gh.lazySingleton<_i118.MoveToWantToRead>(
+        () => _i118.MoveToWantToRead(gh<_i196.BookRepository>()));
+    gh.lazySingleton<_i60.ReorderWantToRead>(
+        () => _i60.ReorderWantToRead(gh<_i196.BookRepository>()));
     gh.lazySingleton<_i214.UpdateBook>(
         () => _i214.UpdateBook(gh<_i196.BookRepository>()));
     gh.lazySingleton<_i304.UpdateReadingProgress>(
@@ -222,6 +230,20 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i450.BookLocalDatasource>(),
           gh<_i314.NoteLocalDatasource>(),
         ));
+    gh.lazySingleton<_i689.BookBloc>(() => _i689.BookBloc(
+          gh<_i206.GetAllBooks>(),
+          gh<_i397.AddBook>(),
+          gh<_i214.UpdateBook>(),
+          gh<_i1009.DeleteBook>(),
+          gh<_i300.MoveToReading>(),
+          gh<_i118.MoveToWantToRead>(),
+          gh<_i246.MarkAsRead>(),
+          gh<_i304.UpdateReadingProgress>(),
+          gh<_i60.ReorderWantToRead>(),
+          gh<_i1025.RecordReadingActivity>(),
+          gh<_i700.CheckAchievements>(),
+          gh<_i926.NotificationService>(),
+        ));
     gh.lazySingleton<_i677.SyncCubit>(
         () => _i677.SyncCubit(gh<_i107.SyncService>()));
     gh.lazySingleton<_i209.AuthBloc>(() => _i209.AuthBloc(
@@ -230,18 +252,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i107.SyncService>(),
           gh<_i1055.GoogleDriveStorage>(),
           gh<_i53.OneDriveStorage>(),
-        ));
-    gh.lazySingleton<_i689.BookBloc>(() => _i689.BookBloc(
-          gh<_i206.GetAllBooks>(),
-          gh<_i397.AddBook>(),
-          gh<_i214.UpdateBook>(),
-          gh<_i1009.DeleteBook>(),
-          gh<_i300.MoveToReading>(),
-          gh<_i246.MarkAsRead>(),
-          gh<_i304.UpdateReadingProgress>(),
-          gh<_i1025.RecordReadingActivity>(),
-          gh<_i700.CheckAchievements>(),
-          gh<_i926.NotificationService>(),
         ));
     gh.lazySingleton<_i268.AddNote>(
         () => _i268.AddNote(gh<_i522.NoteRepository>()));

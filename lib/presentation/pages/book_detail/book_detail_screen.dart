@@ -117,6 +117,14 @@ class _BookDetailView extends StatelessWidget {
           Text(AppStrings.markAsRead),
         ]),
       ));
+      items.add(const PopupMenuItem(
+        value: 'move_to_want_to_read',
+        child: Row(children: [
+          Icon(Icons.undo),
+          SizedBox(width: 8),
+          Text(AppStrings.moveToWantToRead),
+        ]),
+      ));
     }
     // Export notes item — injected via note state
     items.add(const PopupMenuItem(
@@ -177,6 +185,9 @@ class _BookDetailView extends StatelessWidget {
     switch (action) {
       case 'start':
         context.read<BookBloc>().add(BookMoveToReadingRequested(book.id));
+        break;
+      case 'move_to_want_to_read':
+        context.read<BookBloc>().add(BookMoveToWantToReadRequested(book.id));
         break;
       case 'mark_read':
         _showMarkAsReadSheet(context, book);

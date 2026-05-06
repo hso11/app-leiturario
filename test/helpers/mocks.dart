@@ -13,6 +13,8 @@ import 'package:app_controle_leitura/domain/usecases/book/delete_book.dart';
 import 'package:app_controle_leitura/domain/usecases/book/update_book.dart';
 import 'package:app_controle_leitura/domain/usecases/book/mark_as_read.dart';
 import 'package:app_controle_leitura/domain/usecases/book/move_to_reading.dart';
+import 'package:app_controle_leitura/domain/usecases/book/move_to_want_to_read.dart';
+import 'package:app_controle_leitura/domain/usecases/book/reorder_want_to_read.dart';
 import 'package:app_controle_leitura/domain/usecases/book/update_reading_progress.dart';
 import 'package:app_controle_leitura/domain/usecases/streak/record_reading_activity.dart';
 import 'package:app_controle_leitura/domain/usecases/achievement/check_achievements.dart';
@@ -42,7 +44,11 @@ class MockMarkAsRead extends Mock implements MarkAsRead {}
 
 class MockMoveToReading extends Mock implements MoveToReading {}
 
+class MockMoveToWantToRead extends Mock implements MoveToWantToRead {}
+
 class MockUpdateReadingProgress extends Mock implements UpdateReadingProgress {}
+
+class MockReorderWantToRead extends Mock implements ReorderWantToRead {}
 
 class MockRecordReadingActivity extends Mock implements RecordReadingActivity {}
 

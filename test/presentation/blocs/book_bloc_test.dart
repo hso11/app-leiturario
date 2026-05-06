@@ -17,8 +17,10 @@ void main() {
   late MockUpdateBook updateBook;
   late MockDeleteBook deleteBook;
   late MockMoveToReading moveToReading;
+  late MockMoveToWantToRead moveToWantToRead;
   late MockMarkAsRead markAsRead;
   late MockUpdateReadingProgress updateReadingProgress;
+  late MockReorderWantToRead reorderWantToRead;
   late MockRecordReadingActivity recordReadingActivity;
   late MockCheckAchievements checkAchievements;
   late MockNotificationService notificationService;
@@ -32,8 +34,10 @@ void main() {
     updateBook = MockUpdateBook();
     deleteBook = MockDeleteBook();
     moveToReading = MockMoveToReading();
+    moveToWantToRead = MockMoveToWantToRead();
     markAsRead = MockMarkAsRead();
     updateReadingProgress = MockUpdateReadingProgress();
+    reorderWantToRead = MockReorderWantToRead();
     recordReadingActivity = MockRecordReadingActivity();
     checkAchievements = MockCheckAchievements();
     notificationService = MockNotificationService();
@@ -46,8 +50,10 @@ void main() {
         updateBook,
         deleteBook,
         moveToReading,
+        moveToWantToRead,
         markAsRead,
         updateReadingProgress,
+        reorderWantToRead,
         recordReadingActivity,
         checkAchievements,
         notificationService,

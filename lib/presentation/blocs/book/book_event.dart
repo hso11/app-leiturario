@@ -50,3 +50,13 @@ class BookUpdateProgressRequested extends BookEvent {
   final int currentPage;
   BookUpdateProgressRequested({required this.bookId, required this.currentPage});
 }
+
+class BookReorderRequested extends BookEvent {
+  final List<String> orderedIds;
+  BookReorderRequested(this.orderedIds);
+}
+
+class BookMoveToWantToReadRequested extends BookEvent {
+  final String id;
+  BookMoveToWantToReadRequested(this.id);
+}

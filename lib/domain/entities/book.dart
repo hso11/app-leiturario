@@ -16,6 +16,7 @@ class Book extends Equatable {
   final String? review;
   final List<String> genres;
   final String? coverUrl;
+  final int position;
 
   const Book({
     required this.id,
@@ -31,6 +32,7 @@ class Book extends Equatable {
     this.review,
     this.genres = const [],
     this.coverUrl,
+    this.position = 0,
   });
 
   double? get pagesPerDay {
@@ -77,6 +79,7 @@ class Book extends Equatable {
     String? review,
     List<String>? genres,
     String? coverUrl,
+    int? position,
     bool clearStartDate = false,
     bool clearEndDate = false,
     bool clearTargetDate = false,
@@ -98,6 +101,7 @@ class Book extends Equatable {
       review: clearReview ? null : (review ?? this.review),
       genres: genres ?? this.genres,
       coverUrl: clearCoverUrl ? null : (coverUrl ?? this.coverUrl),
+      position: position ?? this.position,
     );
   }
 
@@ -116,5 +120,6 @@ class Book extends Equatable {
         review,
         genres,
         coverUrl,
+        position,
       ];
 }

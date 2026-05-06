@@ -10,7 +10,7 @@ class BookLocalDatasource {
 
   Future<List<BookModel>> getAll() async {
     final db = await _dbHelper.database;
-    final maps = await db.query('books', orderBy: 'rowid DESC');
+    final maps = await db.query('books', orderBy: 'position ASC');
     return maps.map((m) => BookModel.fromSqliteMap(m)).toList();
   }
 
@@ -36,6 +36,16 @@ class BookLocalDatasource {
   Future<void> delete(String id) async {
     final db = await _dbHelper.database;
     await db.delete('books', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> reorderWantToRead(List<String> orderedIds) async {
+    final db = await _dbHelper.database;
+    final batch = db.batch();
+    for (int i = 0; i < orderedIds.length; i++) {
+      batch.update('books', {'position': i},
+          where: 'id = ?', whereArgs: [orderedIds[i]]);
+    }
+    await batch.commit(noResult: true);
   }
 
   Future<void> replaceAll(List<BookModel> books) async {
