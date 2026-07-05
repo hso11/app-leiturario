@@ -51,7 +51,7 @@ void main() {
 
   group('BookModel.toSqliteMap', () {
     test('serializes genres as comma-separated string', () {
-      final model = BookModel(
+      const model = BookModel(
         id: 'b1',
         title: 'T',
         author: 'A',
@@ -64,7 +64,7 @@ void main() {
     });
 
     test('serializes empty genres list as null', () {
-      final model = BookModel(
+      const model = BookModel(
         id: 'b1',
         title: 'T',
         author: 'A',
@@ -99,7 +99,7 @@ void main() {
 
   group('BookModel.toJson', () {
     test('serializes genres as JSON array', () {
-      final model = BookModel(
+      const model = BookModel(
         id: 'b1',
         title: 'T',
         author: 'A',

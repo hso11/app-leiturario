@@ -15,7 +15,7 @@ class StreakWidget extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.orange.withOpacity(0.1),
+            color: Colors.orange.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(

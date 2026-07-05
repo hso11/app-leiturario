@@ -254,7 +254,7 @@ class _AddBookDialogState extends State<AddBookDialog> {
                   return FilterChip(
                     label: Text(genre, style: const TextStyle(fontSize: 12)),
                     selected: selected,
-                    selectedColor: AppColors.primary.withOpacity(0.2),
+                    selectedColor: AppColors.primary.withValues(alpha:0.2),
                     checkmarkColor: AppColors.primary,
                     onSelected: (v) {
                       setState(() {

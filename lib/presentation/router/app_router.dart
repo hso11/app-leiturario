@@ -10,6 +10,7 @@ import '../pages/achievements/achievements_screen.dart';
 import '../pages/settings/settings_screen.dart';
 import '../pages/list_detail/list_detail_screen.dart';
 import '../pages/reading_calendar/reading_calendar_screen.dart';
+import '../pages/tutorial/tutorial_screen.dart';
 
 class _AuthRefreshStream extends ChangeNotifier {
   _AuthRefreshStream(Stream<AuthState> stream) {
@@ -28,6 +29,13 @@ GoRouter createAppRouter(AuthBloc authBloc) => GoRouter(
       initialLocation: '/home',
       refreshListenable: _AuthRefreshStream(authBloc.stream),
       redirect: (context, state) {
+        // Deep link de retorno do OAuth do Supabase. O supabase_flutter já
+        // processa o `code` por conta própria; aqui só evitamos que o
+        // go_router tente rotear para essa URL (que não é uma rota do app).
+        if (state.uri.scheme == 'com.helio.controleleitura') {
+          return '/home';
+        }
+
         final authState = authBloc.state;
         final isAuth = authState is AuthAuthenticated;
         final isLoading =
@@ -66,6 +74,12 @@ GoRouter createAppRouter(AuthBloc authBloc) => GoRouter(
         GoRoute(
           path: '/settings',
           builder: (context, state) => const SettingsScreen(),
+        ),
+        GoRoute(
+          path: '/tutorial',
+          builder: (context, state) => TutorialScreen(
+            fromSettings: state.uri.queryParameters['from'] == 'settings',
+          ),
         ),
         GoRoute(
           path: '/book/:id/calendar',

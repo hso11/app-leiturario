@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../domain/entities/book.dart';
 
 /// Card visual para compartilhamento — 4:5 ratio (feed Instagram).
@@ -19,9 +18,9 @@ class BookShareCard extends StatelessWidget {
       child: Stack(
         children: [
           // ── Fundo gradiente ───────────────────────────────────────
-          Positioned.fill(
+          const Positioned.fill(
             child: DecoratedBox(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -37,17 +36,17 @@ class BookShareCard extends StatelessWidget {
           ),
 
           // ── Padrão decorativo de círculos ─────────────────────────
-          Positioned(
+          const Positioned(
             top: -60,
             right: -60,
             child: _Circle(size: 200, opacity: 0.08),
           ),
-          Positioned(
+          const Positioned(
             bottom: -40,
             left: -40,
             child: _Circle(size: 160, opacity: 0.08),
           ),
-          Positioned(
+          const Positioned(
             top: 80,
             left: -30,
             child: _Circle(size: 100, opacity: 0.05),
@@ -60,11 +59,11 @@ class BookShareCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Cabeçalho
-                Row(
+                const Row(
                   children: [
-                    const Text('🎉', style: TextStyle(fontSize: 22)),
-                    const SizedBox(width: 8),
-                    const Text(
+                    Text('🎉', style: TextStyle(fontSize: 22)),
+                    SizedBox(width: 8),
+                    Text(
                       'Terminei de ler!',
                       style: TextStyle(
                         color: Colors.white,

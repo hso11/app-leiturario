@@ -109,6 +109,7 @@ class _DropZoneState extends State<_DropZone> {
       onAcceptWithDetails: (details) {
         setState(() => _isHovering = false);
         final book = details.data;
+        final bloc = context.read<BookBloc>();
         showDialog<bool>(
           context: context,
           builder: (_) => AlertDialog(
@@ -127,9 +128,7 @@ class _DropZoneState extends State<_DropZone> {
           ),
         ).then((confirmed) {
           if (confirmed == true && mounted) {
-            context
-                .read<BookBloc>()
-                .add(BookMoveToReadingRequested(book.id));
+            bloc.add(BookMoveToReadingRequested(book.id));
           }
         });
       },
@@ -140,13 +139,13 @@ class _DropZoneState extends State<_DropZone> {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: _isHovering
-                ? AppColors.reading.withOpacity(0.3)
-                : AppColors.reading.withOpacity(0.1),
+                ? AppColors.reading.withValues(alpha:0.3)
+                : AppColors.reading.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: _isHovering
                   ? AppColors.reading
-                  : AppColors.reading.withOpacity(0.4),
+                  : AppColors.reading.withValues(alpha:0.4),
               width: 2,
             ),
           ),

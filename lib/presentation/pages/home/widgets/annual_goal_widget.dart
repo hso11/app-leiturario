@@ -19,25 +19,25 @@ class AnnualGoalWidget extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha:0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   children: [
-                    const Icon(Icons.flag, size: 16, color: AppColors.primary),
-                    const SizedBox(width: 4),
+                    Icon(Icons.flag, size: 16, color: AppColors.primary),
+                    SizedBox(width: 4),
                     Text(
                       AppStrings.annualGoal,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primary),
                     ),
-                    const SizedBox(width: 4),
-                    const Icon(Icons.edit, size: 12, color: AppColors.primary),
+                    SizedBox(width: 4),
+                    Icon(Icons.edit, size: 12, color: AppColors.primary),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -50,16 +50,16 @@ class AnnualGoalWidget extends StatelessWidget {
                   const SizedBox(height: 4),
                   LinearProgressIndicator(
                     value: goal > 0 ? (read / goal).clamp(0.0, 1.0) : 0,
-                    backgroundColor: AppColors.primary.withOpacity(0.2),
+                    backgroundColor: AppColors.primary.withValues(alpha:0.2),
                     valueColor:
                         const AlwaysStoppedAnimation<Color>(AppColors.primary),
                     minHeight: 5,
                     borderRadius: BorderRadius.circular(3),
                   ),
                 ] else
-                  Text(
+                  const Text(
                     AppStrings.setGoal,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 12, color: AppColors.textSecondary),
                   ),
               ],

@@ -26,7 +26,7 @@ class BooksLoaded extends BookState {
 /// Extends BooksLoaded so BlocBuilder sees it as loaded state
 class BookAchievementUnlocked extends BooksLoaded {
   final List<Achievement> newAchievements;
-  BookAchievementUnlocked(List<Book> books, this.newAchievements) : super(books);
+  BookAchievementUnlocked(super.books, this.newAchievements);
 }
 
 class BookError extends BookState {

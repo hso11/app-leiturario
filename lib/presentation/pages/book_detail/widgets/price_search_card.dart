@@ -35,7 +35,7 @@ class PriceSearchCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.storefront, color: AppColors.primary, size: 20),
+                const Icon(Icons.storefront, color: AppColors.primary, size: 20),
                 const SizedBox(width: 8),
                 Text(
                   AppStrings.mlPrices,

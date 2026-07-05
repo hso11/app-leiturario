@@ -1,9 +1,20 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
+}
+
+// Carrega as credenciais de assinatura de release de android/key.properties
+// (arquivo NÃO versionado). Crie-o a partir de key.properties.example.
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
 android {
@@ -24,28 +35,34 @@ android {
     defaultConfig {
         applicationId = "com.helio.controleleitura"
         minSdk = flutter.minSdkVersion
-        targetSdk = 34
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
+    // Só registra a config de release quando há key.properties válido. Sem ele,
+    // o build de release usa a assinatura de debug e a Play Store rejeita —
+    // melhor falhar/avisar do que publicar assinado com debug.
+    val hasReleaseKeystore = keystorePropertiesFile.exists()
     signingConfigs {
-        create("release") {
-            // Set these environment variables before building for Play Store:
-            //   KEYSTORE_PATH  — absolute path to your .jks keystore file
-            //   KEY_ALIAS      — key alias inside the keystore
-            //   STORE_PASSWORD — keystore password
-            //   KEY_PASSWORD   — key password
-            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "debug.keystore")
-            storePassword = System.getenv("STORE_PASSWORD") ?: "android"
-            keyAlias = System.getenv("KEY_ALIAS") ?: "androiddebugkey"
-            keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
+        if (hasReleaseKeystore) {
+            create("release") {
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = if (hasReleaseKeystore) {
+                signingConfigs.getByName("release")
+            } else {
+                // Fallback para builds locais sem keystore (NÃO publicável).
+                signingConfigs.getByName("debug")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

@@ -6,9 +6,13 @@ import '../../blocs/book/book_bloc.dart';
 import '../../blocs/book_list/book_list_cubit.dart';
 import '../../blocs/goal/goal_cubit.dart';
 import '../../blocs/streak/streak_cubit.dart';
+import '../../blocs/subscription/subscription_cubit.dart';
 import '../../blocs/theme/theme_cubit.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../core/constants/subscription_constants.dart';
+import '../../../data/services/onboarding_service.dart';
 import '../../../injection.dart';
+import '../../widgets/premium_gate.dart';
 import 'tabs/history_tab.dart';
 import 'tabs/lists_tab.dart';
 import 'tabs/reading_tab.dart';
@@ -63,6 +67,16 @@ class _HomeViewState extends State<_HomeView> with SingleTickerProviderStateMixi
     _pageController = PageController();
     _tabController.addListener(_syncPageFromTab);
     _tabController.addListener(() => setState(() {}));
+    _maybeShowTutorial();
+  }
+
+  /// Exibe o tutorial automaticamente na primeira execução. A flag é lida de
+  /// forma síncrona (carregada no boot pelo OnboardingService).
+  void _maybeShowTutorial() {
+    if (getIt<OnboardingService>().hasSeenTutorial) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.push('/tutorial');
+    });
   }
 
   void _syncPageFromTab() {
@@ -350,6 +364,17 @@ class _HomeViewState extends State<_HomeView> with SingleTickerProviderStateMixi
   }
 
   Future<void> _showAddBookDialog(BuildContext context) async {
+    // Plano gratuito: até freeMaxBooks livros. O 11º exige Premium.
+    final isPremium = context.read<SubscriptionCubit>().state is SubscriptionPremium;
+    if (!isPremium) {
+      final bookState = context.read<BookBloc>().state;
+      final total = bookState is BooksLoaded ? bookState.books.length : 0;
+      if (total >= SubscriptionConstants.freeMaxBooks) {
+        showPremiumBottomSheet(
+            context, 'Biblioteca ilimitada (mais de ${SubscriptionConstants.freeMaxBooks} livros)');
+        return;
+      }
+    }
     final added = await showDialog<bool>(
       context: context,
       builder: (_) => BlocProvider.value(

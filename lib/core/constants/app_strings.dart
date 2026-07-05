@@ -44,7 +44,19 @@ class AppStrings {
 
   // Auth
   static const loginGoogle = 'Entrar com Google';
-  static const loginMicrosoft = 'Entrar com Microsoft';
+  static const loginEmail = 'E-mail';
+  static const loginPassword = 'Senha';
+  static const loginEnter = 'Entrar';
+  static const loginCreateAccount = 'Criar conta';
+  static const loginHaveAccount = 'Já tenho conta';
+  static const loginForgotPassword = 'Esqueci minha senha';
+  static const loginOr = 'ou';
+  static const loginEmailRequired = 'Informe um e-mail válido';
+  static const loginPasswordRequired = 'A senha precisa ter ao menos 6 caracteres';
+  static const loginConfirmationSent =
+      'Enviamos um e-mail de confirmação. Confirme sua conta para entrar.';
+  static const loginResetSent =
+      'Se o e-mail existir, enviamos um link para redefinir a senha.';
   static const logout = 'Sair';
   static const syncNow = 'Sincronizar agora';
   static const lastSync = 'Última sync';
@@ -58,6 +70,33 @@ class AppStrings {
   // Theme
   static const darkMode = 'Modo escuro';
   static const lightMode = 'Modo claro';
+
+  // Tutorial / Onboarding
+  static const tutorialSkip = 'Pular';
+  static const tutorialNext = 'Próximo';
+  static const tutorialStart = 'Começar';
+  static const tutorialMenuItem = 'Ver tutorial';
+  static const tutorialHelpSection = 'Ajuda';
+
+  static const tutorialWelcomeTitle = 'Bem-vindo ao Leiturário';
+  static const tutorialWelcomeDesc =
+      'Acompanhe sua leitura: cadastre livros, organize sua fila e registre suas anotações. Vamos dar uma volta rápida?';
+
+  static const tutorialAddTitle = 'Cadastre seus livros';
+  static const tutorialAddDesc =
+      'Toque em "Novo Livro" e busque pelo título — a capa e os dados vêm automaticamente do acervo online.';
+
+  static const tutorialReorderTitle = 'Organize a fila "A Ler"';
+  static const tutorialReorderDesc =
+      'Segure e arraste para reordenar os livros que quer ler. Arraste para o topo para começar a leitura.';
+
+  static const tutorialNotesTitle = 'Anotações e comentários';
+  static const tutorialNotesDesc =
+      'Na tela do livro, registre comentários com a página de referência. Pode até fotografar um trecho e extrair o texto (OCR).';
+
+  static const tutorialProgressTitle = 'Progresso e conquistas';
+  static const tutorialProgressDesc =
+      'Atualize seu progresso, avalie ao terminar e acompanhe suas estatísticas. Faça backup na nuvem quando quiser.';
 
   // Reading progress & review
   static const currentPage = 'Página atual';

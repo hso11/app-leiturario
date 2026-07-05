@@ -35,10 +35,10 @@ class CheckAchievements {
       return b.endDate!.difference(b.startDate!).inDays <= 3;
     });
 
-    bool _meets(String id) {
+    bool meets(String id) {
       switch (id) {
         case 'first_book':
-          return readBooks.length >= 1;
+          return readBooks.isNotEmpty;
         case 'ten_books':
           return readBooks.length >= 10;
         case 'thirty_books':
@@ -63,7 +63,7 @@ class CheckAchievements {
     final updatedEarned = Map<String, DateTime>.from(alreadyEarned);
 
     for (final achievement in Achievement.all) {
-      if (!alreadyEarned.containsKey(achievement.id) && _meets(achievement.id)) {
+      if (!alreadyEarned.containsKey(achievement.id) && meets(achievement.id)) {
         updatedEarned[achievement.id] = now;
         newlyEarned.add(achievement.copyWith(earnedAt: now));
       }

@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../blocs/book/book_bloc.dart';
 import '../../blocs/note/note_bloc.dart';
+import '../../blocs/subscription/subscription_cubit.dart';
 import '../../../domain/entities/book.dart';
 import '../../../domain/entities/note.dart';
 import '../../../core/constants/app_strings.dart';
@@ -16,6 +17,7 @@ import '../../../core/utils/date_utils.dart';
 import '../../../core/utils/image_capture.dart';
 import '../../../injection.dart';
 import '../../blocs/book_list/book_list_cubit.dart';
+import '../../widgets/premium_gate.dart';
 import 'widgets/book_share_card.dart';
 import 'widgets/price_search_card.dart';
 
@@ -135,7 +137,7 @@ class _BookDetailView extends StatelessWidget {
         Text('Adicionar à lista...'),
       ]),
     ));
-    if (book.status == BookStatus.read || book.status == BookStatus.reading)
+    if (book.status == BookStatus.read || book.status == BookStatus.reading) {
       items.add(const PopupMenuItem(
         value: 'edit_dates',
         child: Row(children: [
@@ -144,7 +146,8 @@ class _BookDetailView extends StatelessWidget {
           Text('Editar datas'),
         ]),
       ));
-    if (book.status == BookStatus.read)
+    }
+    if (book.status == BookStatus.read) {
       items.add(const PopupMenuItem(
         value: 'share',
         child: Row(children: [
@@ -153,6 +156,7 @@ class _BookDetailView extends StatelessWidget {
           Text('Compartilhar conquista 🎉'),
         ]),
       ));
+    }
     items.add(const PopupMenuItem(
       value: 'calendar',
       child: Row(children: [
@@ -228,6 +232,11 @@ class _BookDetailView extends StatelessWidget {
   }
 
   void _exportNotes(BuildContext context, Book book) {
+    final subState = context.read<SubscriptionCubit>().state;
+    if (subState is! SubscriptionPremium) {
+      showPremiumBottomSheet(context, 'Exportar anotações');
+      return;
+    }
     final noteState = context.read<NoteBloc>().state;
     if (noteState is! NotesLoaded || noteState.notes.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -330,8 +339,11 @@ class _BookDetailView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (_) => BlocProvider.value(
-        value: context.read<NoteBloc>(),
+      builder: (_) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: context.read<NoteBloc>()),
+          BlocProvider.value(value: context.read<SubscriptionCubit>()),
+        ],
         child: _AddNoteSheet(bookId: bookId),
       ),
     );
@@ -387,7 +399,7 @@ class _BookInfoCard extends StatelessWidget {
               children: book.genres.map((g) => Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(g,
@@ -434,7 +446,7 @@ class _BookInfoCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       LinearProgressIndicator(
                         value: book.readingProgress ?? 0,
-                        backgroundColor: AppColors.reading.withOpacity(0.2),
+                        backgroundColor: AppColors.reading.withValues(alpha:0.2),
                         valueColor: const AlwaysStoppedAnimation<Color>(AppColors.reading),
                         minHeight: 8,
                         borderRadius: BorderRadius.circular(4),
@@ -477,7 +489,7 @@ class _BookInfoCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.flag_outlined,
+                    const Icon(Icons.flag_outlined,
                         size: 16, color: AppColors.primary),
                     const SizedBox(width: 6),
                     Text(
@@ -584,8 +596,8 @@ class _RatingReviewCard extends StatelessWidget {
               if (book.rating != null) ...[
                 Row(
                   children: [
-                    Text(AppStrings.rating,
-                        style: const TextStyle(
+                    const Text(AppStrings.rating,
+                        style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 14)),
                     const SizedBox(width: 8),
                     Row(
@@ -603,8 +615,8 @@ class _RatingReviewCard extends StatelessWidget {
               ],
               if (book.review != null && book.review!.isNotEmpty) ...[
                 const SizedBox(height: 8),
-                Text(AppStrings.review,
-                    style: const TextStyle(
+                const Text(AppStrings.review,
+                    style: TextStyle(
                         fontWeight: FontWeight.w600, fontSize: 14)),
                 const SizedBox(height: 4),
                 Text(book.review!,
@@ -784,8 +796,8 @@ class _MarkAsReadSheetState extends State<_MarkAsReadSheet> {
           Text(AppStrings.markAsRead,
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 16),
-          Text(AppStrings.rating,
-              style: const TextStyle(fontWeight: FontWeight.w600)),
+          const Text(AppStrings.rating,
+              style: TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(height: 8),
           Row(
             children: List.generate(5, (i) {
@@ -839,7 +851,7 @@ class _InfoChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: (color ?? AppColors.primary).withOpacity(0.1),
+        color: (color ?? AppColors.primary).withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

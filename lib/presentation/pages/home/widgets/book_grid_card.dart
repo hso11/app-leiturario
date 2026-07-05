@@ -57,7 +57,7 @@ class BookGridCard extends StatelessWidget {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      Colors.black.withOpacity(0.92),
+                      Colors.black.withValues(alpha:0.92),
                       Colors.transparent,
                     ],
                   ),
@@ -89,7 +89,7 @@ class BookGridCard extends StatelessWidget {
                   Text(
                     book.author,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.65),
+                      color: Colors.white.withValues(alpha:0.65),
                       fontSize: 9,
                     ),
                     maxLines: 1,
@@ -107,11 +107,11 @@ class BookGridCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                 decoration: BoxDecoration(
-                  color: _statusColor.withOpacity(0.9),
+                  color: _statusColor.withValues(alpha:0.9),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withValues(alpha:0.3),
                       blurRadius: 4,
                     ),
                   ],
@@ -183,7 +183,7 @@ class _CoverImage extends StatelessWidget {
 
   Widget _fallback() {
     return Container(
-      color: statusColor.withOpacity(0.3),
+      color: statusColor.withValues(alpha:0.3),
       child: Center(
         child: Text(
           book.title.isNotEmpty ? book.title[0].toUpperCase() : '?',
@@ -216,14 +216,14 @@ class _ProgressBar extends StatelessWidget {
     final percent = (progress * 100).round();
     return Container(
       height: 20,
-      color: Colors.black.withOpacity(0.5),
+      color: Colors.black.withValues(alpha:0.5),
       child: Row(
         children: [
           Expanded(
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 4,
-              backgroundColor: Colors.white.withOpacity(0.15),
+              backgroundColor: Colors.white.withValues(alpha:0.15),
               valueColor: AlwaysStoppedAnimation<Color>(color),
             ),
           ),

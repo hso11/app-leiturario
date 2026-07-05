@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../blocs/book/book_bloc.dart';
 import '../../../blocs/streak/streak_cubit.dart';
+import '../../../widgets/premium_gate.dart';
 import '../../../../domain/entities/book.dart';
 import '../widgets/monthly_chart_widget.dart';
 import '../widgets/top_rated_widget.dart';
@@ -93,9 +94,23 @@ class _StatsView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        _HeatmapSection(),
+        PremiumGate(
+          featureName: 'Heatmap de leitura',
+          lockedPlaceholder: const _LockedStatCard(
+            icon: Icons.grid_on,
+            label: 'Heatmap de leitura',
+          ),
+          child: _HeatmapSection(),
+        ),
         const SizedBox(height: 20),
-        MonthlyChartWidget(books: books, year: year),
+        PremiumGate(
+          featureName: 'Gráfico mensal',
+          lockedPlaceholder: const _LockedStatCard(
+            icon: Icons.bar_chart,
+            label: 'Gráfico de leitura mensal',
+          ),
+          child: MonthlyChartWidget(books: books, year: year),
+        ),
         const SizedBox(height: 20),
         TopRatedWidget(books: books),
       ],
@@ -113,6 +128,51 @@ class _HeatmapSection extends StatelessWidget {
         final dates = snapshot.data ?? {};
         return ReadingHeatmapWidget(activityDates: dates);
       },
+    );
+  }
+}
+
+class _LockedStatCard extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _LockedStatCard({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () => showPremiumBottomSheet(context, label),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppColors.secondary.withValues(alpha: 0.06),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+              color: AppColors.secondary.withValues(alpha: 0.2)),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.secondary, size: 28),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(label,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 14)),
+                  const Text('Disponível no Premium',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondary)),
+                ],
+              ),
+            ),
+            const Icon(Icons.lock_outline,
+                size: 18, color: AppColors.secondary),
+          ],
+        ),
+      ),
     );
   }
 }

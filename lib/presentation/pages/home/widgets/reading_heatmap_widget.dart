@@ -67,8 +67,8 @@ class ReadingHeatmapWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Weekday labels
-            Column(
-              children: const [
+            const Column(
+              children: [
                 SizedBox(height: 1),
                 _DayLabel('D'),
                 _DayLabel('S'),

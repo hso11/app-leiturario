@@ -11,7 +11,6 @@ import '../../helpers/book_factory.dart';
 // MockCheckAchievements is declared in mocks.dart
 
 void main() {
-  late MockBookRepository repo;
   late MockGetAllBooks getAllBooks;
   late MockAddBook addBook;
   late MockUpdateBook updateBook;
@@ -28,7 +27,6 @@ void main() {
   setUpAll(registerFallbacks);
 
   setUp(() {
-    repo = MockBookRepository();
     getAllBooks = MockGetAllBooks();
     addBook = MockAddBook();
     updateBook = MockUpdateBook();

@@ -9,10 +9,8 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:app_controle_leitura/data/auth/google_auth_service.dart'
-    as _i903;
-import 'package:app_controle_leitura/data/auth/microsoft_auth_service.dart'
-    as _i968;
+import 'package:app_controle_leitura/data/auth/supabase_auth_service.dart'
+    as _i880;
 import 'package:app_controle_leitura/data/datasources/local/book_local_datasource.dart'
     as _i450;
 import 'package:app_controle_leitura/data/datasources/local/database_helper.dart'
@@ -21,12 +19,8 @@ import 'package:app_controle_leitura/data/datasources/local/note_local_datasourc
     as _i314;
 import 'package:app_controle_leitura/data/datasources/local/reading_session_local_datasource.dart'
     as _i19;
-import 'package:app_controle_leitura/data/datasources/remote/google_drive_storage.dart'
-    as _i1055;
-import 'package:app_controle_leitura/data/datasources/remote/onedrive_storage.dart'
-    as _i53;
-import 'package:app_controle_leitura/data/datasources/remote/sync_service.dart'
-    as _i107;
+import 'package:app_controle_leitura/data/datasources/remote/supabase_sync_service.dart'
+    as _i813;
 import 'package:app_controle_leitura/data/repositories/achievement_repository_impl.dart'
     as _i412;
 import 'package:app_controle_leitura/data/repositories/book_list_repository_impl.dart'
@@ -47,6 +41,10 @@ import 'package:app_controle_leitura/data/services/mercado_livre_service.dart'
     as _i497;
 import 'package:app_controle_leitura/data/services/notification_service.dart'
     as _i926;
+import 'package:app_controle_leitura/data/services/onboarding_service.dart'
+    as _i163;
+import 'package:app_controle_leitura/data/services/subscription_service.dart'
+    as _i436;
 import 'package:app_controle_leitura/domain/repositories/achievement_repository.dart'
     as _i1038;
 import 'package:app_controle_leitura/domain/repositories/book_list_repository.dart'
@@ -129,6 +127,8 @@ import 'package:app_controle_leitura/presentation/blocs/reading_calendar/reading
     as _i14;
 import 'package:app_controle_leitura/presentation/blocs/streak/streak_cubit.dart'
     as _i856;
+import 'package:app_controle_leitura/presentation/blocs/subscription/subscription_cubit.dart'
+    as _i1011;
 import 'package:app_controle_leitura/presentation/blocs/sync/sync_cubit.dart'
     as _i677;
 import 'package:get_it/get_it.dart' as _i174;
@@ -145,18 +145,20 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.lazySingleton<_i903.GoogleAuthService>(() => _i903.GoogleAuthService());
-    gh.lazySingleton<_i968.MicrosoftAuthService>(
-        () => _i968.MicrosoftAuthService());
+    gh.lazySingleton<_i880.SupabaseAuthService>(
+        () => _i880.SupabaseAuthService());
     gh.lazySingleton<_i258.DatabaseHelper>(() => _i258.DatabaseHelper());
     gh.lazySingleton<_i818.GoogleBooksService>(
         () => _i818.GoogleBooksService());
     gh.lazySingleton<_i497.MercadoLivreService>(
         () => _i497.MercadoLivreService());
+    gh.lazySingleton<_i163.OnboardingService>(() => _i163.OnboardingService());
+    gh.lazySingleton<_i436.SubscriptionService>(
+        () => _i436.SubscriptionService());
+    gh.lazySingleton<_i209.AuthBloc>(
+        () => _i209.AuthBloc(gh<_i880.SupabaseAuthService>()));
     gh.lazySingleton<_i1038.AchievementRepository>(
         () => _i412.AchievementRepositoryImpl());
-    gh.lazySingleton<_i53.OneDriveStorage>(
-        () => _i53.OneDriveStorage(gh<_i968.MicrosoftAuthService>()));
     gh.lazySingleton<_i767.StreakRepository>(
         () => _i772.StreakRepositoryImpl());
     gh.lazySingleton<_i450.BookLocalDatasource>(
@@ -182,12 +184,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i758.GetAnnualGoal(gh<_i85.GoalRepository>()));
     gh.lazySingleton<_i711.SetAnnualGoal>(
         () => _i711.SetAnnualGoal(gh<_i85.GoalRepository>()));
-    gh.lazySingleton<_i1055.GoogleDriveStorage>(
-        () => _i1055.GoogleDriveStorage(gh<_i903.GoogleAuthService>()));
     gh.lazySingleton<_i196.BookRepository>(
         () => _i195.BookRepositoryImpl(gh<_i450.BookLocalDatasource>()));
     gh.lazySingleton<_i928.BookListRepository>(
         () => _i353.BookListRepositoryImpl(gh<_i258.DatabaseHelper>()));
+    gh.lazySingleton<_i1011.SubscriptionCubit>(
+        () => _i1011.SubscriptionCubit(gh<_i436.SubscriptionService>()));
     gh.lazySingleton<_i930.ReadingSessionRepository>(() =>
         _i318.ReadingSessionRepositoryImpl(
             gh<_i19.ReadingSessionLocalDatasource>()));
@@ -226,7 +228,7 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i681.GetAllBookLists(gh<_i928.BookListRepository>()));
     gh.lazySingleton<_i29.RemoveBookFromList>(
         () => _i29.RemoveBookFromList(gh<_i928.BookListRepository>()));
-    gh.lazySingleton<_i107.SyncService>(() => _i107.SyncService(
+    gh.lazySingleton<_i813.SupabaseSyncService>(() => _i813.SupabaseSyncService(
           gh<_i450.BookLocalDatasource>(),
           gh<_i314.NoteLocalDatasource>(),
         ));
@@ -244,15 +246,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i700.CheckAchievements>(),
           gh<_i926.NotificationService>(),
         ));
-    gh.lazySingleton<_i677.SyncCubit>(
-        () => _i677.SyncCubit(gh<_i107.SyncService>()));
-    gh.lazySingleton<_i209.AuthBloc>(() => _i209.AuthBloc(
-          gh<_i903.GoogleAuthService>(),
-          gh<_i968.MicrosoftAuthService>(),
-          gh<_i107.SyncService>(),
-          gh<_i1055.GoogleDriveStorage>(),
-          gh<_i53.OneDriveStorage>(),
-        ));
     gh.lazySingleton<_i268.AddNote>(
         () => _i268.AddNote(gh<_i522.NoteRepository>()));
     gh.lazySingleton<_i987.DeleteNote>(
@@ -269,6 +262,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i898.GetSessionsForBook(gh<_i930.ReadingSessionRepository>()));
     gh.lazySingleton<_i93.UpsertReadingSession>(
         () => _i93.UpsertReadingSession(gh<_i930.ReadingSessionRepository>()));
+    gh.lazySingleton<_i677.SyncCubit>(
+        () => _i677.SyncCubit(gh<_i813.SupabaseSyncService>()));
     gh.factory<_i14.ReadingCalendarCubit>(() => _i14.ReadingCalendarCubit(
           gh<_i898.GetSessionsForBook>(),
           gh<_i93.UpsertReadingSession>(),

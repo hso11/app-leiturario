@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../injection.dart';
 import 'blocs/auth/auth_bloc.dart';
 import 'blocs/book/book_bloc.dart';
+import 'blocs/subscription/subscription_cubit.dart';
 import 'blocs/sync/sync_cubit.dart';
 import 'blocs/theme/theme_cubit.dart';
 import 'router/app_router.dart';
@@ -90,6 +91,7 @@ class _BookTrackerAppState extends State<BookTrackerApp> {
         BlocProvider.value(value: _authBloc),
         BlocProvider.value(value: getIt<BookBloc>()..add(BookLoadRequested())),
         BlocProvider.value(value: getIt<SyncCubit>()),
+        BlocProvider.value(value: getIt<SubscriptionCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
